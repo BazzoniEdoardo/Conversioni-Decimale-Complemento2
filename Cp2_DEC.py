@@ -1,88 +1,51 @@
-def convertiCp(x):
-  x = int(x)
-  if x>0:
-    x = bin(x).split("0b")
-    x = str(x).replace("[", "").replace("]", "").replace("'", "").replace(" ", "").replace(",", "")
-    xlen = len(x)
-    cm = 7-xlen
-    if cm == 0:
-      x = "0" + x
-      return x
-    elif cm < 0:
-      return "Imposibile convertire con 8 bit"
+def convertiDec(x):
+    if len(x) > 8:
+        return "Impossibile convertire con 8 bit"
+    elif len(x) < 0:
+        return "Numero non convertito in Complemento 2"
     else:
-      string = ""
-      for i in range(cm):
-        string = string + "0"
-      x = string + x
-      x = "0" + x
-      return x
-  elif x == -1:
-    return 11111111
-  else:
-    lista = ["1"]
-    x = x * (-1)
-    x = bin(x).split("0b")
-    x = str(x).replace("[", "").replace("]", "").replace("'", "").replace(" ", "").replace(",", "")
-    xlen = len(x)
-    cm = 7-xlen
-    if cm == 0:
-      x = list(x)
-      for i in range(len(x)):
-        if x[i] == "1":
-          x[i] = "0"
+        if int(str(x[0])) == 1:
+            x = list(x)
+            del x[0]
+            if x[-1] == "1":
+                x[-1] = "0"
+                for i in range(len(x)):
+                    if x[i] == "1":
+                        x[i] = "0"
+                    else:
+                        x[i] = "1"
+                x = "".join(x)
+                x = int(x)
+                x = int(str("0b") + str(x), 2)
+                x = x * (-1)
+                return x
+            else:
+                x[-1] = "1"
+                run = True
+                i = 1
+                while run:
+                    i += 1
+                    if x[-i] == "0":
+                        x[-i] = "1"
+                    else:
+                        x[-i] = "0"
+                        run = False
+                i = 0
+                for i in range(len(x)):
+                    if x[i] == "1":
+                        x[i] = "0"
+                    else:
+                        x[i] = "1"
+                x = "".join(x)
+                x = int(x)
+                x = int(str("0b") + str(x), 2)
+                x = x * (-1)
+                return x
         else:
-          x[i] = "1"
+            x = int(x)
+            x = int(str("0b") + str(x), 2)
+            return x
+            
 
-      if x[-1] == "0":
-        x[-1] = "1"
-        x = lista + x
-        return "".join(x)
-      else:
-        x[-1] = "0"
-        run = True
-        i = 1
-        while run:
-          i += 1 
-          if x[-i] == "1":
-            x[-i] = "0"
-          else:
-            x[-i] = "1"
-            run = False
-        x = lista + x
-        return "".join(x)
-    elif cm < 0:
-      return "Impossibile convertire con 8 bit"
-    else:
-      string = ""
-      for i in range(cm):
-        string = string + "0"
-      x = string + x
-      x = list(x)
-      for i in range(len(x)):
-        if x[i] == "1":
-          x[i] = "0"
-        else:
-          x[i] = "1"
-      
-      if x[-1] == "0":
-        x[-1] = "1"
-        x = lista + x
-        return "".join(x)
-      else:
-        x[-1] = "0"
-        run = True
-        i = 1
-        while run:
-          i += 1
-          if x[-i] == "1":
-            x[-i] = "0"
-          else:
-            x[-i] = "1"
-            run = False
-        x = lista + x
-        return "".join(x)
-
- 
 res = input()
-print(convertiCp(res))
+print(convertiDec(res))
